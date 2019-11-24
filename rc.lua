@@ -51,10 +51,10 @@ beautiful.font              = "Noto Sans Regular 10"
 beautiful.notification_font = "Noto Sans Bold 14"
 
 -- This is used later as the default terminal and editor to run.
-browser = "exo-open --launch WebBrowser" or "firefox"
-filemanager = "exo-open --launch FileManager" or "thunar"
+browser = "chromium --password-store=basic" --"exo-open --launch WebBrowser" or "firefox"
+filemanager = "pcmanfm" --"exo-open --launch FileManager" or "thunar"
 gui_editor = "mousepad"
-terminal = os.getenv("TERMINAL") or "lxterminal"
+terminal = "lxterminal" --os.getenv("TERMINAL") or "lxterminal"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -234,10 +234,8 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            mylauncher,
             s.mytaglist,
             s.mypromptbox,
-            separator,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
@@ -330,9 +328,7 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)           end,
               {description = "decrease the number of columns", group = "layout"}),
     awful.key({ modkey     }, "b", function () awful.spawn(browser)          end,
-              {description = "launch Browser", group = "launcher"}),
-    awful.key({ modkey, "Control"}, "Escape", function () awful.spawn("/usr/bin/rofi -show drun -modi drun") end,
-              {description = "launch rofi", group = "launcher"}),
+              {description = "launch Browser", group = "launcher"}),    
     awful.key({ modkey,           }, "e", function () awful.spawn(filemanager)            end,
               {description = "launch filemanager", group = "launcher"}),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                       end,
@@ -450,6 +446,7 @@ for i = 1, 9 do
                           local tag = client.focus.screen.tags[i]
                           if tag then
                               client.focus:move_to_tag(tag)
+                              tag:view_only()
                           end
                      end
                   end,
