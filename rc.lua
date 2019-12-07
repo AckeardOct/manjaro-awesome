@@ -54,7 +54,8 @@ beautiful.notification_font = "Noto Sans Bold 14"
 browser = "chromium --password-store=basic" --"exo-open --launch WebBrowser" or "firefox"
 filemanager = "pcmanfm" --"exo-open --launch FileManager" or "thunar"
 gui_editor = "mousepad"
-terminal = "lxterminal" --os.getenv("TERMINAL") or "lxterminal"
+terminal = "lxterminal -e fish" --os.getenv("TERMINAL") or "lxterminal"
+telegram = "telegram-desktop"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -304,6 +305,10 @@ globalkeys = gears.table.join(
             end
         end,
         {description = "go back", group = "client"}),
+    
+    -- Custom program
+    awful.key({ modkey,           }, "q", function () awful.spawn(telegram) end,
+              {description = "open a terminal", group = "custom"}),
 
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,
@@ -469,7 +474,8 @@ clientbuttons = gears.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise()
                  mymainmenu:hide() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
-    awful.button({ modkey }, 3, awful.mouse.client.resize))
+    awful.button({ modkey }, 3, awful.mouse.client.resize)
+)
 
 -- Set keys
 root.keys(globalkeys)
